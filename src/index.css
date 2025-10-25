@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+:root{
+	--bg-900: #0b0b0c; /* deep black */
+	--bg-800: #131313;
+	--gold: #D4AF37;
+	--muted: #cfcfcf;
+}
+
+html,body,#root{height:100%}
+html{ scroll-behavior: smooth }
+body{
+	background: var(--bg-900);
+	color: #eaeaea;
+	-webkit-font-smoothing:antialiased;
+}
+
+/* utility to show gold text */
+.text-gold{ color: var(--gold) }
+.bg-dark-card{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
+
+/* gold button default */
+.btn-gold{ background: var(--gold); color: #0b0b0c; border: 1px solid var(--gold) }
+.btn-gold:hover{ background: transparent; color: var(--gold); border-color: var(--gold) }
+
+
+/* Dark-style native selects and options to avoid bright white dropdowns */
+select {
+	background-color: var(--bg-800);
+	color: #eaeaea;
+	border: 1px solid rgba(255,255,255,0.04);
+	padding-right: 2.5rem; /* space for custom arrow */
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background-image: linear-gradient(45deg, transparent 50%, #eaeaea 50%), linear-gradient(135deg, #eaeaea 50%, transparent 50%);
+	background-position: right 1rem center, right 0.6rem center;
+	background-size: 6px 6px, 6px 6px;
+	background-repeat: no-repeat;
+}
+
+/* Make option list darker where supported */
+select option {
+	background-color: var(--bg-900);
+	color: #eaeaea;
+}
+
+/* A small helper for selects already using input-like classes */
+.select-dark { background-color: var(--bg-800); color: #eaeaea }
+
+/* Themed scrollbars: black track with gold thumb, subtle hover and rounded */
+/* WebKit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+	width: 12px;
+	height: 12px;
+}
+::-webkit-scrollbar-track {
+	background: rgba(255,255,255,0.02);
+	border-radius: 8px;
+}
+::-webkit-scrollbar-thumb {
+	background: linear-gradient(180deg, rgba(212,175,55,0.95), rgba(212,175,55,0.85));
+	border-radius: 8px;
+	border: 2px solid rgba(0,0,0,0.35);
+}
+::-webkit-scrollbar-thumb:hover {
+	filter: brightness(1.05);
+}
+
+/* Firefox */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(212,175,55,0.9) rgba(255,255,255,0.02);
+}
+
+/* Modal-specific: make modal scrollbar more prominent and narrow */
+.project-modal::-webkit-scrollbar {
+	width: 10px;
+}
+.project-modal::-webkit-scrollbar-track { background: rgba(0,0,0,0.15); }
+.project-modal::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(212,175,55,0.95), rgba(212,175,55,0.8)); border-radius: 6px; }
+.project-modal { scrollbar-color: rgba(212,175,55,0.9) rgba(0,0,0,0.15); }
+
+/* Hero carousel specifics */
+
+.hero-carousel > div {
+	will-change: opacity, transform;
+	z-index: 0;
+}
+
+/* make sure slides sit behind overlay content */
+.hero-carousel { position: absolute; inset: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+	.hero-carousel > div { transition: none !important }
+}
+
