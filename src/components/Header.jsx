@@ -39,7 +39,7 @@ export default function Header(){
   return (
     <header className="relative z-50 bg-[color:var(--bg-800)] shadow-sm">
       <div className="container relative mx-auto flex items-center justify-between gap-4 px-4 py-4">
-        <Link to="/home" className="text-xl font-bold text-gold">Saraswati Contractors</Link>
+        <Link to="/home" className="text-xl font-bold text-gold">Get Your Karagir !!</Link>
 
         <div className="flex items-center gap-3 md:hidden">
           {user && <span className="text-sm text-gray-200" title={user.name}>{user.name.split(' ')[0]}</span>}
