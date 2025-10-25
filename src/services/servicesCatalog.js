@@ -14,6 +14,7 @@ function shuffleArray(items) {
 }
 
 export async function fetchServiceCategories() {
+  console.log(API_BASE);
   const res = await fetch(
     `${API_BASE}/services/categories`,
     DEFAULT_FETCH_OPTIONS
