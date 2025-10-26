@@ -6,7 +6,7 @@ export default function Footer(){
       <div className="container mx-auto px-4 py-8 text-gray-300">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <h3 className="font-bold text-gold">Get Your Karagir !!</h3>
+            <h3 className="font-bold text-gold">Get Your Karagir</h3>
             <div className="text-sm text-gray-400 mt-2">Phone: <a href="tel:+7021226296" className="text-gray-200">+91 70212 26296</a></div>
             <div className="mt-2 text-sm text-gray-400">Locations: All Over Maharashtra</div>
           </div>
@@ -24,7 +24,7 @@ export default function Footer(){
             <p className="text-sm text-gray-400 mt-2">Crafting furniture with perfection since 1980.</p>
           </div>
         </div>
-        <div className="mt-6 text-center text-xs text-gray-500">© {new Date().getFullYear()} Get Your Karagir !!</div>
+        <div className="mt-6 text-center text-xs text-gray-500">© {new Date().getFullYear()} Get Your Karagir</div>
       </div>
     </footer>
   )
