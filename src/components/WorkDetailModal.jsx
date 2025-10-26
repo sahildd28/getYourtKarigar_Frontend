@@ -40,7 +40,7 @@ export default function WorkDetailModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
       <div className="absolute inset-0 bg-black/70" onClick={onClose} aria-hidden="true" />
 
-  <div className="relative z-10 w-full max-w-[calc(100vw-1.5rem)] max-h-[92dvh] overflow-hidden rounded-2xl border border-white/5 bg-[color:var(--bg-900)] shadow-2xl sm:max-w-4xl lg:max-w-5xl xl:max-w-6xl">
+  <div className="relative z-10 w-full max-w-[calc(100vw-1.5rem)] max-h-[92dvh] overflow-y-auto rounded-2xl border border-white/5 bg-[color:var(--bg-900)] shadow-2xl sm:max-w-4xl lg:max-w-5xl lg:overflow-hidden xl:max-w-6xl">
         <button
           type="button"
           onClick={onClose}
@@ -50,7 +50,7 @@ export default function WorkDetailModal({
           ×
         </button>
 
-        <div className="grid h-full min-h-[320px] grid-cols-1 grid-rows-[auto_auto] overflow-hidden lg:grid-cols-[1.7fr_1fr] lg:grid-rows-1">
+  <div className="grid h-full min-h-[320px] grid-cols-1 grid-rows-[auto_auto] overflow-hidden lg:grid-cols-[1.7fr_1fr] lg:grid-rows-1">
           <div className="flex h-full flex-col bg-black">
             <div className="relative flex-1 min-h-[260px] sm:min-h-[320px] lg:min-h-[480px] xl:min-h-[540px]">
               {activeImage ? (
