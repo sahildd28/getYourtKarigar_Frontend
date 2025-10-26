@@ -10,7 +10,9 @@ const FALLBACK_WORKS = [
     categoryName: 'Wardrobes',
     summary: 'Client: Mrs. Neha Shah (Bandra East, Mumbai)\n• The existing trolley had warped channels, uneven laminate, and limited storage.\n• Rebuilt with marine-grade plywood, added soft-close powder-coated channels, and created modular spice racks.\n• Matte teak laminate exterior with fully sealed edges for spill resistance.\nResult: A silent, organized pull-out pantry that matches the kitchen décor and keeps staples within easy reach. Upgraded a worn-out kitchen trolley into a smooth, soft-close storage hub for a Bandra apartment.',
     images: [
-      { imageUrl: 'https://res.cloudinary.com/dshupm40m/image/upload/c_crop,w_720,h_540,ar_4:3,g_auto/v1761485840/b5410c972c1666aba7f15e2a0055a402_syfap7.jpg' },
+      { 
+        imageUrl: 'https://res.cloudinary.com/dshupm40m/image/upload/c_crop,w_720,h_540,ar_4:3,g_auto/v1761485840/b5410c972c1666aba7f15e2a0055a402_syfap7.jpg', 
+      },
     ],
   },
   {
