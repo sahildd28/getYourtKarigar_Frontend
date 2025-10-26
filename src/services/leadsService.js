@@ -29,7 +29,25 @@ export async function submitLead(lead, token) {
     headers: { "Content-Type": "application/json", ...authHeader(token) },
     body: JSON.stringify(payload),
   });
-  if (!res.ok) throw new Error("Failed to submit lead");
+  if (!res.ok) {
+    let detail = "Failed to submit lead";
+    try {
+      const body = await res.json();
+      detail = body?.message || body?.detail || detail;
+    } catch {
+      try {
+        const text = await res.text();
+        if (text) detail = text;
+      } catch {
+        // ignore fallback parsing errors
+      }
+    }
+    if (res.status === 429 && detail === "Failed to submit lead") {
+      detail =
+        "You already have an active enquiry. Cancel it before raising a new one.";
+    }
+    throw new Error(detail);
+  }
   return res.json();
 }
 
@@ -63,5 +81,23 @@ export async function updateLead(id, patch, token) {
     body: JSON.stringify(patch),
   });
   if (!res.ok) throw new Error("Failed to update lead");
+  return res.json();
+}
+
+export async function cancelLead(id, token) {
+  const res = await fetch(`${API_BASE}/leads/${id}/cancel`, {
+    method: "PATCH",
+    headers: { ...authHeader(token) },
+  });
+  if (!res.ok) {
+    let detail = "Failed to cancel lead";
+    try {
+      const body = await res.json();
+      detail = body?.message || body?.detail || detail;
+    } catch {
+      // ignore
+    }
+    throw new Error(detail);
+  }
   return res.json();
 }

@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import useAuth from '../contexts/useAuth';
 import { Link } from 'react-router-dom';
-import { fetchMyLeads } from '../services/leadsService';
+import { fetchMyLeads, cancelLead } from '../services/leadsService';
 
 const statusStyles = {
   new: 'bg-[color:var(--gold)]/15 text-[color:var(--gold)] border border-[color:var(--gold)]/40',
   contacted: 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/40',
   working: 'bg-blue-500/10 text-blue-300 border border-blue-500/40',
   closed: 'bg-purple-500/10 text-purple-300 border border-purple-500/40',
+  dropped: 'bg-red-500/10 text-red-300 border border-red-500/40',
   default: 'bg-slate-500/10 text-slate-200 border border-slate-500/40'
 };
 
@@ -15,10 +16,11 @@ const statusDescriptions = {
   new: 'New: Your enquiry is registered and queued for review.',
   contacted: 'Contacted: A project specialist has been assigned and will reach out via call or message.',
   working: 'Working: Crafting is underway for your request.',
-  closed: 'Closed: This request has been completed.'
+  closed: 'Closed: This request has been completed.',
+  dropped: 'Dropped: You cancelled this enquiry. Create a new one if you still need assistance.'
 };
 
-function LeadCard({ lead }) {
+function LeadCard({ lead, onCancel, cancelling }) {
   const createdAt = lead.createdAt ? new Date(lead.createdAt) : null;
   const statusKey = lead.status ? lead.status.toLowerCase() : 'default';
   const badgeClass = statusStyles[statusKey] || statusStyles.default;
@@ -85,6 +87,19 @@ function LeadCard({ lead }) {
             <p className="leading-relaxed">{lead.message}</p>
           </div>
         )}
+
+        {onCancel && lead.status?.toLowerCase() !== 'dropped' && (
+          <div className="flex flex-wrap justify-end gap-3 pt-3">
+            <button
+              type="button"
+              onClick={() => onCancel(lead)}
+              disabled={cancelling}
+              className="inline-flex items-center gap-2 rounded border border-red-500/40 bg-red-500/10 px-4 py-2 text-sm font-semibold text-red-200 transition hover:bg-red-500/20 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {cancelling ? 'Cancelling…' : 'Cancel enquiry'}
+            </button>
+          </div>
+        )}
       </div>
     </li>
   );
@@ -94,6 +109,8 @@ export default function ProjectTracker() {
   const { token, user } = useAuth();
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [cancellingId, setCancellingId] = useState(null);
+  const [feedback, setFeedback] = useState({ ok: null, error: null });
 
   const userId = user?.id;
   const userName = user?.name || 'there';
@@ -108,9 +125,27 @@ export default function ProjectTracker() {
       })
       .catch((err) => {
         console.error(err);
+        setFeedback({ ok: null, error: err?.message || 'Failed to load leads' });
         setLoading(false);
       });
   }, [token, userId]);
+
+  const handleCancel = async (lead) => {
+    if (!window.confirm('Cancel this enquiry? You can raise a fresh one afterwards.')) {
+      return;
+    }
+    setFeedback({ ok: null, error: null });
+    setCancellingId(lead.id);
+    try {
+      const updated = await cancelLead(lead.id, token);
+      setLeads((prev) => prev.map((item) => (item.id === lead.id ? { ...item, status: updated.status } : item)));
+      setFeedback({ ok: 'Enquiry cancelled. Feel free to start a new request when you are ready.', error: null });
+    } catch (err) {
+      setFeedback({ ok: null, error: err?.message || 'Failed to cancel lead' });
+    } finally {
+      setCancellingId(null);
+    }
+  };
 
   const stats = useMemo(() => {
     const total = leads.length;
@@ -153,6 +188,17 @@ export default function ProjectTracker() {
       </div>
 
       <div className="container mx-auto max-w-5xl px-4 py-10 space-y-8">
+        {(feedback.ok || feedback.error) && (
+          <div
+            className={`rounded-xl border px-4 py-3 text-sm ${
+              feedback.ok
+                ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200'
+                : 'border-red-500/40 bg-red-500/10 text-red-200'
+            }`}
+          >
+            {feedback.ok || feedback.error}
+          </div>
+        )}
         <div className="grid gap-4 sm:grid-cols-3">
           <div className="rounded-2xl border border-white/5 bg-white/5 p-5">
             <p className="text-xs uppercase tracking-wide text-gray-400">Total Requests</p>
@@ -180,7 +226,12 @@ export default function ProjectTracker() {
         ) : (
           <ul className="space-y-5">
             {leads.map((lead) => (
-              <LeadCard key={lead.id} lead={lead} />
+              <LeadCard
+                key={lead.id}
+                lead={lead}
+                onCancel={handleCancel}
+                cancelling={cancellingId === lead.id}
+              />
             ))}
           </ul>
         )}
