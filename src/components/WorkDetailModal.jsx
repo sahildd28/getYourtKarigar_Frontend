@@ -37,10 +37,10 @@ export default function WorkDetailModal({
   const activeImage = images[selectedImage] || images[0] || null
 
   return (
-    <div className="fixed inset-0 z-50 flex min-h-screen items-center justify-center px-2 py-4 sm:p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
       <div className="absolute inset-0 bg-black/70" onClick={onClose} aria-hidden="true" />
 
-      <div className="relative z-10 flex w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-white/5 bg-[color:var(--bg-900)] shadow-2xl lg:max-h-[92dvh] lg:flex-row">
+  <div className="relative z-10 flex w-full max-w-[calc(100vw-1.5rem)] max-h-[92dvh] flex-col overflow-y-auto rounded-2xl border border-white/5 bg-[color:var(--bg-900)] shadow-2xl sm:max-w-4xl lg:flex-row lg:overflow-hidden">
         <button
           type="button"
           onClick={onClose}
@@ -51,7 +51,7 @@ export default function WorkDetailModal({
         </button>
 
         <div className="flex min-h-0 flex-col lg:max-h-[92dvh] lg:w-2/3">
-          <div className="relative aspect-[16/10] w-full max-h-[60vh] sm:max-h-[65vh] lg:h-full lg:max-h-none">
+          <div className="relative aspect-[16/10] w-full max-h-[58vh] sm:max-h-[65vh] lg:h-full lg:max-h-none">
             {activeImage ? (
               <img
                 src={activeImage.imageUrl}
