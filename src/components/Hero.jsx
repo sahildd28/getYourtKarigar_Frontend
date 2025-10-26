@@ -17,8 +17,7 @@ export default function Hero(){
       <div className="absolute inset-0 bg-[color:rgba(0,0,0,0.45)] p-8 flex items-center z-20">
         <div className="container mx-auto flex flex-col md:flex-row items-center gap-6">
           <div className="flex-1 text-center md:text-left">
-            <h1 className="text-3xl md:text-5xl font-extrabold mb-3 text-gold">Any Furniture Repair, Carpentry & Interiors</h1>
-            <p className="text-gray-300 mb-4">Datta Dhamnaskar — Manager</p>
+            <h1 className="text-3xl md:text-5xl font-extrabold mb-3 text-gold">Any Furniture Repair, Carpentry & Interiors</h1>            
             <div className="space-x-3">
               <button
                 onClick={() => {
